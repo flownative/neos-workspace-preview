@@ -1,0 +1,31 @@
+Neos:
+  Flow:
+    security:
+      authentication:
+        providers:
+          'Neos.Neos:Backend':
+            requestPatterns:
+              'Flownative.WorkspacePreview:HashTokenRefresh':
+                pattern: ControllerObjectName
+                patternOptions:
+                  controllerObjectNamePattern: 'Flownative\WorkspacePreview\Controller\.*'
+          'Flownative.WorkspacePreview:TokenAuthenticator':
+            provider: Flownative\TokenAuthentication\Security\HashTokenProvider
+            requestPatterns:
+              'Neos.Neos:frontendControllers':
+                pattern: ControllerObjectName
+                patternOptions:
+                  controllerObjectNamePattern: 'Neos\Neos\Controller\Frontend\.*'
+              'Flownative.WorkspacePreview:HashtokenLogin':
+                pattern: ControllerObjectName
+                patternOptions:
+                  controllerObjectNamePattern: 'Flownative\WorkspacePreview\Controller\.*'
+
+    mvc:
+      routes:
+        'Flownative.WorkspacePreview': true
+
+
+Flownative:
+  TokenAuthentication:
+    authenticationProviderName: 'Flownative.WorkspacePreview:TokenAuthenticator'

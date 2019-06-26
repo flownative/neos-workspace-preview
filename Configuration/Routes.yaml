@@ -1,0 +1,17 @@
+- name: 'HashToken Login'
+  uriPattern: '_token-login/hash-token-login'
+  defaults:
+    '@package':    'Flownative.WorkspacePreview'
+    '@controller': 'HashTokenLogin'
+    '@action':     'authenticate'
+    '@format':     'html'
+  appendExceedingArguments: TRUE
+
+- name: 'HashToken Refresh'
+  uriPattern: 'neos/_token-login/hash-token-refresh/{workspace}'
+  defaults:
+    '@package':    'Flownative.WorkspacePreview'
+    '@controller': 'HashTokenRefresh'
+    '@action':     'refreshHashTokenForWorkspace'
+    '@format':     'html'
+  httpMethods: ['POST']

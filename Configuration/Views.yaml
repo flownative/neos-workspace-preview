@@ -1,0 +1,5 @@
+- requestFilter: 'parentRequest.isPackage("Neos.Neos") && isFormat("html") && isController("Module\Management\Workspaces")'
+  options:
+    templateRootPaths:
+      'Flownative.WorkspacePreview': 'resource://Flownative.WorkspacePreview/Private/Templates'
+      'Neos.Neos': 'resource://Neos.Neos/Private/Templates'

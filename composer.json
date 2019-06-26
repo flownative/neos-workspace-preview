@@ -1,0 +1,22 @@
+{
+    "name": "flownative/workspace-preview",
+    "type": "neos-package",
+    "description": "Generate links to preview workspaces.",
+    "homepage": "http://github.com/flownative/neos-workspace-preview",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Müller",
+            "homepage": "http://about.me/kitsunet"
+        }
+    ],
+    "require": {
+        "flownative/token-authentication": "*",
+        "neos/neos": "^3.3.0 || ^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flownative\\WorkspacePreview\\": "Classes/"
+        }
+    }
+}

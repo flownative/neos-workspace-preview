@@ -1,0 +1,245 @@
+{namespace neos=Neos\Neos\ViewHelpers}
+{namespace preview=Flownative\WorkspacePreview\ViewHelpers}
+<f:layout name="BackendSubModule" />
+
+<f:section name="content">
+	<div class="neos-row-fluid">
+		<table class="neos-table">
+			<thead>
+			<tr>
+				<th>&nbsp;</th>
+				<th>{neos:backend.translate(id: 'workspaces.workspace.title', source: 'Modules', package: 'Neos.Neos')}</th>
+				<th>{neos:backend.translate(id: 'workspaces.workspace.baseWorkspace', source: 'Modules', package: 'Neos.Neos')}</th>
+				<th>{neos:backend.translate(id: 'workspaces.workspace.owner', source: 'Modules', package: 'Neos.Neos')}</th>
+				<th class="neos-changes">{neos:backend.translate(id: 'workspaces.workspace.changes', source: 'Modules', package: 'Neos.Neos')}</th>
+				<th>&nbsp;</th>
+			</tr>
+			</thead>
+			<f:for each="{workspacesAndChangeCounts}" key="workspaceName" as="workspaceAndCounts" iteration="workspacesIterator">
+				<f:alias map="{workspace: workspaceAndCounts.workspace, changesCounts: workspaceAndCounts.changesCounts, canPublish: workspaceAndCounts.canPublish, canManage: workspaceAndCounts.canManage, dependentWorkspacesCount: workspaceAndCounts.dependentWorkspacesCount}">
+					<tr>
+						<td class="neos-workspace-type">
+							<f:if condition="{userWorkspace} === {workspace}">
+								<f:then>
+									<i class="icon-user fas fa-user" title="{neos:backend.translate(id: 'workspaces.personalWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"></i>
+								</f:then>
+								<f:else>
+									<f:if condition="{canPublish}">
+										<f:then>
+											<f:if condition="{workspace.privateWorkspace}">
+												<f:then>
+													<i class="icon-shield fas fa-shield" title="{neos:backend.translate(id: 'workspaces.privateWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"></i>
+												</f:then>
+												<f:else>
+													<i class="icon-group fas fa-group" title="{neos:backend.translate(id: 'workspaces.internalWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"></i>
+												</f:else>
+											</f:if>
+										</f:then>
+										<f:else>
+											<i class="icon-lock fas fa-lock" title="{neos:backend.translate(id: 'workspaces.readonlyWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"></i>
+										</f:else>
+									</f:if>
+								</f:else>
+							</f:if>
+						</td>
+						<td><span title="{workspace.name}" data-neos-toggle="tooltip">{workspace.title -> f:format.crop(maxCharacters: 25, append: '…')}</span></td>
+						<td>
+							<f:if condition="{workspace.baseWorkspace}">
+								<f:then>
+									<span title="{workspace.baseWorkspace.name}" data-neos-toggle="tooltip">{workspace.baseWorkspace.title -> f:format.crop(maxCharacters: 25, append: '…')}</span>
+								</f:then>
+								<f:else>
+									<span>-</span>
+								</f:else>
+							</f:if>
+						</td>
+						<td>
+							<f:security.ifAccess privilegeTarget="Neos.Neos:Backend.Module.Administration.Users">
+								<f:then>
+									<neos:link.module path="administration/users" action="show" arguments="{user: workspace.owner}">{workspace.owner.label}</neos:link.module>
+								</f:then>
+								<f:else>
+									{workspace.owner.label}
+								</f:else>
+							</f:security.ifAccess>
+						</td>
+						<td class="neos-changes">
+							<f:if condition="{workspace.baseWorkspace}">
+								<span title="{neos:backend.translate(id: 'workspaces.changesCounts', source: 'Modules', package: 'Neos.Neos', arguments: changesCounts)}" data-neos-toggle="tooltip">
+									<div class="neos-change-stats">
+										<f:if condition="{changesCounts.total} != 0">
+											<f:then>
+												<neos:backend.changeStats changeCounts="{changesCounts}">
+													<span class="new" style="width: {newCountRatio}%"></span><span class="changed" style="width: {changedCountRatio}%"></span><span class="removed" style="width: {removedCountRatio}%"></span>
+												</neos:backend.changeStats>
+											</f:then>
+											<f:else>
+												<span class="unchanged"></span>
+											</f:else>
+										</f:if>
+									</div>
+								</span>
+								<f:if condition="{changesCounts.total} != 0">
+									<f:link.action action="show" arguments="{workspace: workspace}" class="neos-button neos-button-primary">
+									<i class="icon-review fas fa-review"></i>
+									{neos:backend.translate(id: 'workspaces.review', source: 'Modules', package: 'Neos.Neos')}
+									</f:link.action>
+								</f:if>
+							</f:if>
+						</td>
+						<td class="neos-action">
+							<div class="neos-pull-right">
+								<f:if condition="{canManage}">
+									<f:link.action action="edit" arguments="{workspace: workspace}" class="neos-button neos-button-primary" title="{neos:backend.translate(id: 'workspaces.editWorkspace', source: 'Modules', package: 'Neos.Neos', arguments: {0: workspace.title})}" additionalAttributes="{data-neos-toggle: 'tooltip'}">
+										<i class="icon-pencil icon-white fas fa-pencil-alt"></i>
+									</f:link.action>
+								</f:if>
+
+								<f:if condition="{userWorkspace} === {workspace}">
+									<f:then>
+										<button class="neos-button neos-button-danger neos-disabled" title="{neos:backend.translate(id: 'workspaces.help.cantDeletePersonalWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"><i class="icon-trash icon-white"></i></button>
+									</f:then>
+									<f:else>
+										<div class="neos-button-group neos-user-menu">
+											<button class="neos-dropdown-toggle neos-button" data-neos-toggle="dropdown"
+													href="#" title="" data-neos-tooltip="" data-placement="left"
+													data-original-title="User Menu">
+												<i class="icon-eye fas fa-eye"></i><i
+													class="icon-caret-down fas fa-caret-down"></i>
+											</button>
+											<ul class="neos-dropdown-menu" role="menu" aria-labelledby="dLabel">
+												<f:alias
+														map="{token: '{preview:getHashTokenForWorkspace(workspace: workspace)}'}">
+													<f:if condition="{token}">
+														<li>
+
+															<a onclick="copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')"><i class="icon-link"></i>Copy Preview Link</a>
+														</li>
+													</f:if>
+												</f:alias>
+												<f:security.ifAccess privilegeTarget="Flownative.WorkspacePreview:RefreshHashTokenForWorkspace">
+												<li>
+													<f:form useParentRequest="true" package="Flownative.WorkspacePreview" controller="HashTokenRefresh" action="refreshHashTokenForWorkspace" arguments="{workspace: workspace}"  method="post">
+														<button type="submit" name="" value="refreshHashTokenForWorkspace" style="width: 100%;">
+															<i class="icon-refresh fas fa-refresh"></i> (Re-)Generate
+														</button>
+													</f:form>
+												</li>
+												</f:security.ifAccess>
+											</ul>
+										</div>
+										<f:if condition="{changesCounts.total} != 0">
+											<f:then>
+												<button class="neos-button neos-button-danger neos-disabled" title="{neos:backend.translate(id: 'workspaces.help.workspaceContainsChanges', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"><i class="icon-trash icon-white"></i></button>
+											</f:then>
+											<f:else>
+												<f:if condition="{dependentWorkspacesCount} != 0">
+													<f:then>
+														<button class="neos-button neos-button-danger neos-disabled" title="{neos:backend.translate(id: 'workspaces.help.cantDeleteWorkspaceHasDependencies', source: 'Modules', package: 'Neos.Neos')}" data-neos-toggle="tooltip"><i class="icon-trash icon-white"></i></button>
+													</f:then>
+													<f:else>
+														<f:if condition="{canManage}">
+															<button class="neos-button neos-button-danger" title="{neos:backend.translate(id: 'workspaces.deleteWorkspace', source: 'Modules', package: 'Neos.Neos')}" data-toggle="modal" href="#workspace-{workspacesIterator.index}" data-neos-toggle="tooltip">
+																<i class="icon-trash icon-white fas fa-trash-alt"></i>
+															</button>
+															<div class="neos-hide" id="workspace-{workspacesIterator.index}">
+																<div class="neos-modal-centered">
+																	<div class="neos-modal-content">
+																		<div class="neos-modal-header">
+																			<button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+																			<div class="neos-header">{neos:backend.translate(id: 'workspaces.dialog.confirmWorkspaceDeletion', source: 'Modules', package: 'Neos.Neos', arguments: {0: workspace.title})}</div>
+																			<div>
+																				<div class="neos-subheader">
+																					<p>{neos:backend.translate(id: 'workspaces.dialog.thisWillDeleteTheWorkspace', source: 'Modules', package: 'Neos.Neos')}</p>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="neos-modal-footer">
+																			<a href="#" class="neos-button" data-dismiss="modal">{neos:backend.translate(id: 'cancel', source: 'Modules', package: 'Neos.Neos')}</a>
+																			<f:form action="delete" arguments="{workspace: workspace}" class="neos-inline">
+																				<button type="submit" class="neos-button neos-button-danger" title="{neos:backend.translate(id: 'workspaces.deleteWorkspace', source: 'Modules', package: 'Neos.Neos')}">
+																					{neos:backend.translate(id: 'workspaces.yesDeleteWorkspace', source: 'Modules', package: 'Neos.Neos')}
+																				</button>
+																			</f:form>
+																		</div>
+																	</div>
+																</div>
+																<div class="neos-modal-backdrop neos-in"></div>
+															</div>
+														</f:if>
+													</f:else>
+												</f:if>
+											</f:else>
+										</f:if>
+									</f:else>
+								</f:if>
+							</div>
+						</td>
+					</tr>
+				</f:alias>
+			</f:for>
+		</table>
+	</div>
+	<div class="neos-footer">
+		<f:security.ifAccess privilegeTarget="Neos.Neos:Backend.CreateWorkspaces">
+		<f:link.action action="new" class="neos-button neos-button-primary">{neos:backend.translate(id: 'workspaces.createNewWorkspace', source: 'Modules', package: 'Neos.Neos')}</f:link.action>
+		</f:security.ifAccess>
+	</div>
+	<script>
+		function copyTextToClipboard(text) {
+			var textArea = document.createElement("textarea");
+
+			//
+			// *** This styling is an extra step which is likely not required. ***
+			//
+			// Why is it here? To ensure:
+			// 1. the element is able to have focus and selection.
+			// 2. if element was to flash render it has minimal visual impact.
+			// 3. less flakyness with selection and copying which **might** occur if
+			//    the textarea element is not visible.
+			//
+			// The likelihood is the element won't even render, not even a flash,
+			// so some of these are just precautions. However in IE the element
+			// is visible whilst the popup box asking the user for permission for
+			// the web page to copy to the clipboard.
+			//
+
+			// Place in top-left corner of screen regardless of scroll position.
+			textArea.style.position = 'fixed';
+			textArea.style.top = 0;
+			textArea.style.left = 0;
+
+			// Ensure it has a small width and height. Setting to 1px / 1em
+			// doesn't work as this gives a negative w/h on some browsers.
+			textArea.style.width = '2em';
+			textArea.style.height = '2em';
+
+			// We don't need padding, reducing the size if it does flash render.
+			textArea.style.padding = 0;
+
+			// Clean up any borders.
+			textArea.style.border = 'none';
+			textArea.style.outline = 'none';
+			textArea.style.boxShadow = 'none';
+
+			// Avoid flash of white box if rendered for any reason.
+			textArea.style.background = 'transparent';
+
+
+			textArea.value = text;
+
+			document.body.appendChild(textArea);
+			textArea.focus();
+			textArea.select();
+
+			try {
+				document.execCommand('copy');
+			} catch (err) {
+				console.log('Unable to copy.');
+			}
+
+			document.body.removeChild(textArea);
+		}
+
+	</script>
+</f:section>
