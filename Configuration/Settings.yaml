@@ -25,6 +25,12 @@ Neos:
       routes:
         'Flownative.WorkspacePreview': true
 
+  Neos:
+    Ui:
+      resources:
+        javascript:
+          'Flownative.WorkspacePreview:Addons':
+            resource: '${"resource://Flownative.WorkspacePreview/Public/LinkView/Plugin.js"}'
 
 Flownative:
   TokenAuthentication:

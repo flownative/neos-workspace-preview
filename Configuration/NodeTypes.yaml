@@ -1,0 +1,17 @@
+'Flownative.WorkspacePreview:PreviewLinkMixin':
+  ui:
+    inspector:
+      views:
+        previewlink:
+          label: 'Preview'
+          group: 'nodeInfo'
+          position: 20
+          view: 'Flownative.WorkspacePreview/LinkView'
+          viewOptions:
+            dataSource: 'PreviewLinkView'
+            columns:
+              - data: 'link'
+
+'Neos.Neos:Document':
+  superTypes:
+    'Flownative.WorkspacePreview:PreviewLinkMixin': true

@@ -1,0 +1,16 @@
+{
+    "scripts": {
+        "build": "neos-react-scripts build",
+        "watch": "neos-react-scripts watch"
+    },
+    "neos": {
+        "buildTargetDirectory": "../../../Public/LinkView"
+    },
+    "dependencies": {
+        "plow-js": "^2.2.0",
+        "react-clipboard.js": "^2.0.15"
+    },
+    "devDependencies": {
+        "@neos-project/neos-ui-extensibility": "^2.2"
+    }
+}

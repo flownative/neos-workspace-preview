@@ -35,6 +35,9 @@ class ConverUrisImplementation extends OriginalImplementation
             $this->tsValueCache[$fullPath] = true;
         }
 
-        return parent::evaluate();
+        try {
+            return parent::evaluate();
+        } catch (\Throwable $e) {
+        }
     }
 }
