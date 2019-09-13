@@ -57,10 +57,24 @@ class HashTokenLoginController extends AbstractAuthenticationController
             return;
         }
 
+        $possibleNode = $this->getNodeArgumentValue();
+        $this->redirectToWorkspace($workspaceName, $possibleNode);
+    }
+
+    /**
+     * Get a possible node argument from the current request.
+     *
+     * @return NodeInterface|null
+     */
+    protected function getNodeArgumentValue()
+    {
+        if (!$this->request->hasArgument('node')) {
+            return null;
+        }
+
         $nodeArgument = new Argument('node', NodeInterface::class);
         $nodeArgument->setValue($this->request->getArgument('node'));
-
-        $this->redirectToWorkspace($workspaceName, $nodeArgument->getValue());
+        return $nodeArgument->getValue();
     }
 
     /**
@@ -73,6 +87,7 @@ class HashTokenLoginController extends AbstractAuthenticationController
         /** @var ContentContext $context */
         $context = $this->contextFactory->create(['workspaceName' => $workspaceName]);
 
+        $nodeInWorkspace = null;
         if ($nodeToRedirectTo instanceof NodeInterface) {
             $flowQuery = new FlowQuery([$nodeToRedirectTo]);
             $nodeInWorkspace = $flowQuery->context(['workspaceName' => $workspaceName])->get(0);
