@@ -4,6 +4,9 @@ namespace Flownative\WorkspacePreview\Command;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
+use Neos\ContentRepository\Domain\Model\Workspace;
+use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
+use Flownative\TokenAuthentication\Security\Model\HashAndRoles;
 use Flownative\WorkspacePreview\WorkspacePreviewTokenFactory;
 
 /**
@@ -24,15 +27,43 @@ class HashTokenCommandController extends CommandController
     protected $workspacePreviewTokenFactory;
 
     /**
+     * @Flow\Inject
+     * @var WorkspaceRepository
+     */
+    protected $workspaceRepository;
+
+    /**
      * Create a token for previewing the workspace with the given name/identifier.
      *
      * @param string $workspaceName
      */
     public function createWorkspacePreviewTokenCommand(string $workspaceName)
     {
-        $tokenmetadata = $this->workspacePreviewTokenFactory->create($workspaceName);
+        $this->createAndOutputWorkspacePreviewToken($workspaceName);
         $this->persistenceManager->persistAll();
+    }
 
-        $this->outputLine('Created token with hash "%s"', [$tokenmetadata->getHash()]);
+    public function createForAllPossibleWorkspaces()
+    {
+        /** @var Workspace $workspace */
+        foreach ($this->workspaceRepository->findAll() as $workspace) {
+            if ($workspaceName->isPrivateWorkspace() || $workspace->isInternalWorkspace()) {
+                $this->createAndOutputWorkspacePreviewToken($workspace->getName());
+            }
+        }
+        $this->persistenceManager->persistAll();
+    }
+
+    /**
+     * Creates a token and outputs information.
+     *
+     * @param string $workspaceName
+     * @return HashAndRoles
+     */
+    private function createAndOutputWorkspacePreviewToken($workspaceName)
+    {
+        $tokenmetadata = $this->workspacePreviewTokenFactory->create($workspaceName);
+        $this->outputLine('Created token for "%" with hash "%s"', [$workspaceName, $tokenmetadata->getHash()]);
+        return $tokenmetadata;
     }
 }
