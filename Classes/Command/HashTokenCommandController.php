@@ -43,11 +43,14 @@ class HashTokenCommandController extends CommandController
         $this->persistenceManager->persistAll();
     }
 
-    public function createForAllPossibleWorkspaces()
+    /**
+     * Create preview tokens for all internal and private workspaces (not personal though)
+     */
+    public function createForAllPossibleWorkspacesCommand()
     {
         /** @var Workspace $workspace */
         foreach ($this->workspaceRepository->findAll() as $workspace) {
-            if ($workspaceName->isPrivateWorkspace() || $workspace->isInternalWorkspace()) {
+            if ($workspace->isPrivateWorkspace() || $workspace->isInternalWorkspace()) {
                 $this->createAndOutputWorkspacePreviewToken($workspace->getName());
             }
         }
