@@ -14,6 +14,11 @@ use Neos\Neos\Service\DataSource\DataSourceInterface;
  */
 class PreviewLinkViewDataSource implements DataSourceInterface
 {
+    private const ERROR_NONE = 'none';
+    private const ERROR_MISSING_NODE = 'missingNode';
+    private const ERROR_PUBLIC_WORKSPACE = 'publicWorkspace';
+    private const ERROR_MISSING_TOKEN = 'missingToken';
+
     /**
      * @var ControllerContext
      */
@@ -52,46 +57,50 @@ class PreviewLinkViewDataSource implements DataSourceInterface
      */
     public function getData(NodeInterface $node = null, array $arguments)
     {
-        if ($node === null) {
-            return [
-                'data' => [
-                    'link' => '---'
-                ]
-            ];
-        }
-
+        $link = $this->getLink($node, $error);
         return [
             'data' => [
-                'link' => $this->getLink($node)
+                'link' => $link,
+                'error' => $error,
             ]
         ];
     }
 
     /**
-     * @param NodeInterface $node
+     * @param NodeInterface|null $node
+     * @param string $error
      * @return string
+     * @throws MissingActionNameException
      */
-    protected function getLink(NodeInterface $node): string
+    protected function getLink(NodeInterface $node = null, string &$error = null): string
     {
+        if ($node === null) {
+            $error = self::ERROR_MISSING_NODE;
+            return '';
+        }
         $personalWorkspace = $this->userService->getPersonalWorkspace();
         $baseWorkspace = $personalWorkspace->getBaseWorkspace();
 
         if ($baseWorkspace->isPublicWorkspace()) {
-            return '---';
+            $error = self::ERROR_PUBLIC_WORKSPACE;
+            return '';
         }
 
         $hashAndRoles = $this->getHashTokenForWorkspace($baseWorkspace->getName());
         if ($hashAndRoles === null) {
-            return 'No token';
+            $error = self::ERROR_MISSING_TOKEN;
+            return '';
         }
 
         $contextPath = str_replace('@' . $personalWorkspace->getName(), '@' . $hashAndRoles->getSettings()['workspaceName'], $node->getContextPath());
 
-        return $this->controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(true)
+        $url = $this->controllerContext->getUriBuilder()->reset()->setCreateAbsoluteUri(true)
             ->uriFor('authenticate', [
             '_authenticationHashToken' => $hashAndRoles->getHash(),
             'node' => $contextPath
             ], 'HashTokenLogin', 'Flownative.WorkspacePreview', null);
+        $error = self::ERROR_NONE;
+        return $url;
     }
 
     /**

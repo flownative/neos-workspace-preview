@@ -375,6 +375,26 @@ exports.SynchronousMetaRegistry = SynchronousMetaRegistry_1["default"];
 
 /***/ }),
 
+/***/ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/neos-ui-decorators/index.js":
+/*!********************************************************************************************************************!*\
+  !*** ./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/neos-ui-decorators/index.js ***!
+  \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _readFromConsumerApi = __webpack_require__(/*! ../../../../dist/readFromConsumerApi */ "./node_modules/@neos-project/neos-ui-extensibility/dist/readFromConsumerApi.js");
+
+var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().NeosUiDecorators;
+
+/***/ }),
+
 /***/ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/neos-ui-views/index.js":
 /*!***************************************************************************************************************!*\
   !*** ./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/neos-ui-views/index.js ***!
@@ -392,6 +412,26 @@ var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().NeosUiViews;
+
+/***/ }),
+
+/***/ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/react-ui-components/index.js":
+/*!*********************************************************************************************************************!*\
+  !*** ./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/react-ui-components/index.js ***!
+  \*********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _readFromConsumerApi = __webpack_require__(/*! ../../../../dist/readFromConsumerApi */ "./node_modules/@neos-project/neos-ui-extensibility/dist/readFromConsumerApi.js");
+
+var _readFromConsumerApi2 = _interopRequireDefault(_readFromConsumerApi);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = (0, _readFromConsumerApi2.default)('NeosProjectPackages')().ReactUiComponents;
 
 /***/ }),
 
@@ -2208,7 +2248,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class, _class2, _temp;
+var _dec, _dec2, _class, _class2, _temp;
 
 var _react = __webpack_require__(/*! react */ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/vendor/react/index.js");
 
@@ -2226,6 +2266,10 @@ var _neosUiViews = __webpack_require__(/*! @neos-project/neos-ui-views */ "./nod
 
 var _plowJs = __webpack_require__(/*! plow-js */ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/vendor/plow-js/index.js");
 
+var _neosUiDecorators = __webpack_require__(/*! @neos-project/neos-ui-decorators */ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/neos-ui-decorators/index.js");
+
+var _reactUiComponents = __webpack_require__(/*! @neos-project/react-ui-components */ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/neosProjectPackages/react-ui-components/index.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2234,7 +2278,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LinkView = (_dec = (0, _neosUiViews.dataLoader)(), _dec(_class = (_temp = _class2 = function (_PureComponent) {
+var LinkView = (_dec = (0, _neosUiViews.dataLoader)(), _dec2 = (0, _neosUiDecorators.neos)(function (globalRegistry) {
+  return {
+    i18nRegistry: globalRegistry.get('i18n')
+  };
+}), _dec(_class = _dec2(_class = (_temp = _class2 = function (_PureComponent) {
   _inherits(LinkView, _PureComponent);
 
   function LinkView() {
@@ -2247,22 +2295,27 @@ var LinkView = (_dec = (0, _neosUiViews.dataLoader)(), _dec(_class = (_temp = _c
     key: 'render',
     value: function render() {
       var linkUrl = (0, _plowJs.$get)(['link'], this.props.data);
+      var error = (0, _plowJs.$get)(['error'], this.props.data);
 
-      if (linkUrl === '---') {
+      if (error !== 'none') {
         return _react2.default.createElement(
           'div',
           null,
-          '---'
+          this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:error.' + error, 'Error: ' + error)
         );
       }
-
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           _reactClipboard2.default,
-          { 'data-clipboard-text': linkUrl },
-          'Copy Preview Link'
+          {
+            'data-clipboard-text': linkUrl,
+            component: _reactUiComponents.Button,
+            'button-style': 'lighter'
+          },
+          _react2.default.createElement(_reactUiComponents.Icon, { icon: 'copy', padded: 'right' }),
+          this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:copyPreviewLink', 'Copy Preview Link')
         )
       );
     }
@@ -2271,7 +2324,7 @@ var LinkView = (_dec = (0, _neosUiViews.dataLoader)(), _dec(_class = (_temp = _c
   return LinkView;
 }(_react.PureComponent), _class2.propTypes = {
   data: _propTypes2.default.object.isRequired
-}, _temp)) || _class);
+}, _temp)) || _class) || _class);
 exports.default = LinkView;
 
 /***/ }),

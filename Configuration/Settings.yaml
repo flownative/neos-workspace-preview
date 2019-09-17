@@ -26,6 +26,12 @@ Neos:
         'Flownative.WorkspacePreview': true
 
   Neos:
+    userInterface:
+      translation:
+        autoInclude:
+          'Flownative.WorkspacePreview':
+            - Main
+            - 'NodeTypes/*'
     Ui:
       resources:
         javascript:

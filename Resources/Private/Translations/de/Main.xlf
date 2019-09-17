@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" product-name="Flownative.WorkspacePreview" source-language="en" target-language="de" datatype="plaintext">
+		<body>
+			<trans-unit id="copyPreviewLink" xml:space="preserve">
+				<source>Copy Preview Link</source>
+				<target xml:lang="de">Vorschau-Link kopieren</target>
+			</trans-unit>
+			<trans-unit id="error.missingNode" xml:space="preserve">
+				<source>The currently selected node can't be found</source>
+				<target xml:lang="de">Der aktuell ausgewählte Node kann nicht gefunden werden</target>
+			</trans-unit>
+			<trans-unit id="error.publicWorkspace" xml:space="preserve">
+				<source>Preview link is not required for public workspaces</source>
+				<target xml:lang="de">Für öffentliche Workspaces sind keine Vorschau-Links erforderlich</target>
+			</trans-unit>
+			<trans-unit id="error.missingToken" xml:space="preserve">
+				<source>For this workspace no preview token has been generated yet. This can be changed in the "Workspaces"-module</source>
+				<target xml:lang="de">Für diesen Workspace wurde noch kein Vorschau-Token generiert. Das kann im "Arbeitsbereiche"-Modul geändert werden</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
