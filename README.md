@@ -12,7 +12,7 @@ following to your Fusion:
 
 ```
 prototype(Neos.Neos:ConvertUris) {
-    @class = 'Flownative\\WorkspacePreview\\Fusion\\ConverUrisImplementation'
+    @class = 'Flownative\\WorkspacePreview\\Fusion\\ConvertUrisImplementation'
 }
 ```
 
