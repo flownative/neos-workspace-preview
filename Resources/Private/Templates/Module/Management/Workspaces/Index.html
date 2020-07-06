@@ -120,7 +120,7 @@
 												<f:security.ifAccess privilegeTarget="Flownative.WorkspacePreview:RefreshHashTokenForWorkspace">
 												<li>
 													<f:form useParentRequest="true" package="Flownative.WorkspacePreview" controller="HashTokenRefresh" action="refreshHashTokenForWorkspace" arguments="{workspace: workspace}"  method="post">
-														<button type="submit" name="" value="refreshHashTokenForWorkspace" style="width: 100%;">
+														<button type="submit" name="" value="refreshHashTokenForWorkspace" style="width: 100%;" class="neos-button">
 															<i class="icon-refresh fas fa-refresh"></i> (Re-)Generate
 														</button>
 													</f:form>
