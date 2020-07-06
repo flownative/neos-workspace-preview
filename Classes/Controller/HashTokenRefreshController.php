@@ -27,7 +27,7 @@ class HashTokenRefreshController extends ActionController
     public function refreshHashTokenForWorkspaceAction(Workspace $workspace)
     {
         $this->workspacePreviewTokenFactory->refresh($workspace->getName());
-        $this->flashMessageContainer->addMessage(new Message('A new preview token has been generated for workspace "%s", the old one is invalid now!', null, [$workspace->getTitle()]));
+        $this->addFlashMessage('A new preview token has been generated for workspace "%s", the old one is invalid now!', '', Message::SEVERITY_OK, [$workspace->getTitle()]);
         $this->forwardToReferringRequest();
     }
 }
