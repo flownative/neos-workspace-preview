@@ -113,7 +113,7 @@
 													<f:if condition="{token}">
 														<li>
 
-															<a onclick="copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')"><i class="icon-link"></i>Copy Preview Link</a>
+															<a href="javascript:copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')"><i class="icon-link"></i>Copy Preview Link</a>
 														</li>
 													</f:if>
 												</f:alias>
