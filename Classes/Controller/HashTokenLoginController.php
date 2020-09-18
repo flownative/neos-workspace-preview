@@ -97,6 +97,6 @@ class HashTokenLoginController extends AbstractAuthenticationController
             $nodeInWorkspace = $context->getCurrentSiteNode();
         }
 
-        $this->redirect('show', 'Frontend\Node', 'Neos.Neos', ['node' => $nodeInWorkspace]);
+        $this->redirect('preview', 'Frontend\Node', 'Neos.Neos', ['node' => $nodeInWorkspace]);
     }
 }

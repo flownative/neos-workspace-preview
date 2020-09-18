@@ -55,7 +55,7 @@ class PreviewLinkViewDataSource implements DataSourceInterface
      * @return array|mixed
      * @throws MissingActionNameException
      */
-    public function getData(NodeInterface $node = null, array $arguments)
+    public function getData(NodeInterface $node = null, array $arguments = [])
     {
         $link = $this->getLink($node, $error);
         return [
