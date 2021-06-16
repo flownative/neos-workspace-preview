@@ -21,10 +21,10 @@ class ConvertUrisImplementation extends OriginalImplementation
     public function evaluate()
     {
         $currentRenderingMode = $this->interfaceRenderModeService->findModeByCurrentUser();
-        $forceConversationPathPart = 'forceConversion';
+        $forceConversionPathPart = 'forceConversion';
 
-        if ($currentRenderingMode->isEdit() === false && $this->fusionValue($forceConversationPathPart) !== false) {
-            $fullPath = $this->path . '/' . $forceConversationPathPart;
+        if ($currentRenderingMode->isEdit() === false && $this->fusionValue($forceConversionPathPart) !== false) {
+            $fullPath = $this->path . '/' . $forceConversionPathPart;
             $this->tsValueCache[$fullPath] = true;
         }
 
