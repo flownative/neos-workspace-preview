@@ -29,9 +29,9 @@ class ConvertUrisImplementation extends OriginalImplementation
         }
 
         $currentRenderingMode = $contentContext->getCurrentRenderingMode();
-        $foceConversationPathPart = 'forceConversion';
-        if ($currentRenderingMode->isEdit() === false && $this->fusionValue($foceConversationPathPart) !== false) {
-            $fullPath = $this->path . '/' . $foceConversationPathPart;
+        $forceConversionPathPart = 'forceConversion';
+        if ($currentRenderingMode->isEdit() === false && $this->fusionValue($forceConversionPathPart) !== false) {
+            $fullPath = $this->path . '/' . $forceConversionPathPart;
             $this->tsValueCache[$fullPath] = true;
         }
 
