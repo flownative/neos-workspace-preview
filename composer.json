@@ -11,8 +11,8 @@
         }
     ],
     "require": {
-        "flownative/token-authentication": "*",
-        "neos/neos": "^5.0"
+        "flownative/token-authentication": "^2.0",
+        "neos/neos": "^5.3 || ^7.0"
     },
     "autoload": {
         "psr-4": {
