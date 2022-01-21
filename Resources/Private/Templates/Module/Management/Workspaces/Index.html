@@ -112,8 +112,11 @@
 														map="{token: '{preview:getHashTokenForWorkspace(workspace: workspace)}'}">
 													<f:if condition="{token}">
 														<li>
-
-															<a href="javascript:copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')"><i class="icon-link"></i>Copy Preview Link</a>
+															<button class="neos-button">
+																<a onclick="copyPreviewUrlToClipboard(event)" data-preview-url="{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}" href="{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}">
+																	<i class="fas fa-link"></i> Copy Preview Link
+																</a>
+															</button>
 														</li>
 													</f:if>
 												</f:alias>
@@ -186,12 +189,18 @@
 		</f:security.ifAccess>
 	</div>
 	<script>
-		function copyTextToClipboard(text) {
-			navigator.clipboard.writeText(text).then(function () {
+		function copyPreviewUrlToClipboard(event) {
+			event.preventDefault();
+			const $target = $(event.target);
+
+			navigator.clipboard.writeText($target.data('preview-url')).then(function () {
 				console.log('Copied preview link.');
 			}, function () {
 				console.log('Unable to copy preview link.');
 			});
+
+			// close dropdown menu reliably
+			$target.closest('.neos-user-menu').removeClass('neos-open', 'neos-dropdown-open');
 		}
 	</script>
 </f:section>
