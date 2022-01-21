@@ -66,7 +66,7 @@ class HashTokenCommandController extends CommandController
     private function createAndOutputWorkspacePreviewToken($workspaceName)
     {
         $tokenmetadata = $this->workspacePreviewTokenFactory->create($workspaceName);
-        $this->outputLine('Created token for "%" with hash "%s"', [$workspaceName, $tokenmetadata->getHash()]);
+        $this->outputLine('Created token for "%s" with hash "%s"', [$workspaceName, $tokenmetadata->getHash()]);
         return $tokenmetadata;
     }
 }
