@@ -22,12 +22,11 @@ class HashTokenRefreshController extends ActionController
      * Will refresh the hash or create an entirely new token for the given workspace
      *
      * @param Workspace $workspace
-     * @throws \Neos\Flow\Mvc\Exception\ForwardException
      */
-    public function refreshHashTokenForWorkspaceAction(Workspace $workspace)
+    public function refreshHashTokenForWorkspaceAction(Workspace $workspace): void
     {
         $this->workspacePreviewTokenFactory->refresh($workspace->getName());
         $this->addFlashMessage('A new preview token has been generated for workspace "%s", the old one is invalid now!', '', Message::SEVERITY_OK, [$workspace->getTitle()]);
-        $this->forwardToReferringRequest();
+        $this->redirectToRequest($this->request->getReferringRequest());
     }
 }
