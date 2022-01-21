@@ -111,16 +111,18 @@
 												<f:alias map="{token: '{preview:getHashTokenForWorkspace(workspace: workspace)}'}">
 													<f:if condition="{token}">
 														<li>
-															<a href="javascript:copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')">
-																<i class="fas fa-link"></i> Copy Preview Link
-															</a>
+															<button style="width: 100%;" class="neos-button button__token-preview-menu">
+																<a href="javascript:copyTextToClipboard('{f:uri.action(absolute: true, useParentRequest: true, package: 'Flownative.WorkspacePreview', controller: 'HashTokenLogin', action: 'authenticate', arguments: {_authenticationHashToken: token.hash})}')">
+																	<i class="fas fa-link"></i> Copy Preview Link
+																</a>
+															</button>
 														</li>
 													</f:if>
 												</f:alias>
 												<f:security.ifAccess privilegeTarget="Flownative.WorkspacePreview:RefreshHashTokenForWorkspace">
 													<li>
 														<f:form useParentRequest="true" package="Flownative.WorkspacePreview" controller="HashTokenRefresh" action="refreshHashTokenForWorkspace" arguments="{workspace: workspace}"  method="post">
-															<button type="submit" name="" value="refreshHashTokenForWorkspace" style="width: 100%;" class="neos-button">
+															<button type="submit" name="" value="refreshHashTokenForWorkspace" style="width: 100%;" class="neos-button button__token-preview-menu">
 																<i class="fas fa-sync-alt"></i> (Re-)Generate
 															</button>
 														</f:form>
@@ -246,6 +248,9 @@
 			.neos-user-menu.neos-dropdown-open > .neos-dropdown-menu {
 					display: block;
 					right: 0;
+			}
+			.neos-user-menu.neos-dropdown-open > .neos-dropdown-menu .button__token-preview-menu {
+					text-align: left;
 			}
 	</style>
 </f:section>
