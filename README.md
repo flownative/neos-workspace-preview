@@ -18,8 +18,9 @@ prototype(Neos.Neos:ConvertUris) {
 
 ## Usage
 
-After installation you will find an additional icon in the 
+After installation you will find an additional icon in the
 workspace module of your Neos installation. As Administrator
 you will be able to create a preview link for an existing internal workspace.
+
 Any editor can then use the second menu option to copy that link and give it to
 people who should preview the workspace.
