@@ -11,6 +11,7 @@ Neos:
                   controllerObjectNamePattern: 'Flownative\WorkspacePreview\Controller\.*'
           'Flownative.WorkspacePreview:TokenAuthenticator':
             provider: Flownative\TokenAuthentication\Security\HashTokenProvider
+            token: Flownative\TokenAuthentication\Security\SessionStartingHashToken
             requestPatterns:
               'Neos.Neos:frontendControllers':
                 pattern: ControllerObjectName

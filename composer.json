@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "flownative/token-authentication": "^2.0",
+        "flownative/token-authentication": "^2.2.1",
         "neos/neos": "^5.3 || ^7.0"
     },
     "autoload": {
