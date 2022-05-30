@@ -1,9 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace Flownative\WorkspacePreview\Fusion;
 
+use Neos\Flow\Annotations as Flow;
+use Neos\Neos\Domain\Exception as DomainException;
 use Neos\Neos\Domain\Service\UserInterfaceModeService;
 use Neos\Neos\Fusion\ConvertUrisImplementation as OriginalImplementation;
-use Neos\Flow\Annotations as Flow;
 
 class ConvertUrisImplementation extends OriginalImplementation
 {
@@ -16,16 +19,16 @@ class ConvertUrisImplementation extends OriginalImplementation
 
     /**
      * @return string
-     * @throws \Neos\Neos\Domain\Exception
+     * @throws DomainException
      */
-    public function evaluate()
+    public function evaluate(): string
     {
         $currentRenderingMode = $this->interfaceRenderModeService->findModeByCurrentUser();
         $forceConversionPathPart = 'forceConversion';
 
         if ($currentRenderingMode->isEdit() === false && $this->fusionValue($forceConversionPathPart) !== false) {
             $fullPath = $this->path . '/' . $forceConversionPathPart;
-            $this->tsValueCache[$fullPath] = true;
+            $this->fusionValueCache[$fullPath] = true;
         }
 
         return parent::evaluate();

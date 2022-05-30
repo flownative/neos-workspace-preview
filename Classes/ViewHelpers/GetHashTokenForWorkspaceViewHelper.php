@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
+
 namespace Flownative\WorkspacePreview\ViewHelpers;
 
+use Flownative\TokenAuthentication\Security\Model\HashAndRoles;
+use Flownative\TokenAuthentication\Security\Repository\HashAndRolesRepository;
 use Neos\ContentRepository\Domain\Model\Workspace;
 use Neos\FluidAdaptor\Core\Rendering\RenderingContext;
 use Neos\FluidAdaptor\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use Flownative\TokenAuthentication\Security\Repository\HashAndRolesRepository;
 
 /**
  * A viewhelper to get a preview token by workspace
@@ -20,7 +23,10 @@ class GetHashTokenForWorkspaceViewHelper extends AbstractViewHelper
         $this->registerArgument('workspace', Workspace::class, 'The workspace to get a token for.', true);
     }
 
-    public function render()
+    /**
+     * @return HashAndRoles|null
+     */
+    public function render(): ?HashAndRoles
     {
         return self::renderStatic($this->arguments, $this->buildRenderChildrenClosure(), $this->renderingContext);
     }
@@ -29,15 +35,15 @@ class GetHashTokenForWorkspaceViewHelper extends AbstractViewHelper
      * @param array $arguments
      * @param \Closure $renderChildrenClosure
      * @param RenderingContextInterface $renderingContext
-     * @return mixed
+     * @return HashAndRoles|null
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext): ?HashAndRoles
     {
         $workspace = $arguments['workspace'];
         $workspaceName = $workspace->getName();
 
         /** @var $renderingContext RenderingContext */
-        $objectManager  = $renderingContext->getObjectManager();
+        $objectManager = $renderingContext->getObjectManager();
         $tokenRepository = $objectManager->get(HashAndRolesRepository::class);
 
         $tokens = $tokenRepository->findByRoles(['Flownative.WorkspacePreview:WorkspacePreviewer']);
@@ -47,5 +53,7 @@ class GetHashTokenForWorkspaceViewHelper extends AbstractViewHelper
                 return $token;
             }
         }
+
+        return null;
     }
 }
