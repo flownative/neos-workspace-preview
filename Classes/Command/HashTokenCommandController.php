@@ -1,13 +1,14 @@
 <?php
+declare(strict_types=1);
+
 namespace Flownative\WorkspacePreview\Command;
 
+use Flownative\WorkspacePreview\WorkspacePreviewTokenFactory;
+use Neos\ContentRepository\Domain\Model\Workspace;
+use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Cli\CommandController;
 use Neos\Flow\Persistence\PersistenceManagerInterface;
-use Neos\ContentRepository\Domain\Model\Workspace;
-use Neos\ContentRepository\Domain\Repository\WorkspaceRepository;
-use Flownative\TokenAuthentication\Security\Model\HashAndRoles;
-use Flownative\WorkspacePreview\WorkspacePreviewTokenFactory;
 
 /**
  *
@@ -37,7 +38,7 @@ class HashTokenCommandController extends CommandController
      *
      * @param string $workspaceName
      */
-    public function createWorkspacePreviewTokenCommand(string $workspaceName)
+    public function createWorkspacePreviewTokenCommand(string $workspaceName): void
     {
         $this->createAndOutputWorkspacePreviewToken($workspaceName);
         $this->persistenceManager->persistAll();
@@ -46,7 +47,7 @@ class HashTokenCommandController extends CommandController
     /**
      * Create preview tokens for all internal and private workspaces (not personal though)
      */
-    public function createForAllPossibleWorkspacesCommand()
+    public function createForAllPossibleWorkspacesCommand(): void
     {
         /** @var Workspace $workspace */
         foreach ($this->workspaceRepository->findAll() as $workspace) {
@@ -61,12 +62,11 @@ class HashTokenCommandController extends CommandController
      * Creates a token and outputs information.
      *
      * @param string $workspaceName
-     * @return HashAndRoles
+     * @return void
      */
-    private function createAndOutputWorkspacePreviewToken($workspaceName)
+    private function createAndOutputWorkspacePreviewToken(string $workspaceName): void
     {
         $tokenmetadata = $this->workspacePreviewTokenFactory->create($workspaceName);
         $this->outputLine('Created token for "%s" with hash "%s"', [$workspaceName, $tokenmetadata->getHash()]);
-        return $tokenmetadata;
     }
 }

@@ -1,15 +1,18 @@
 <?php
+declare(strict_types=1);
+
 namespace Flownative\WorkspacePreview\Controller;
 
+use Flownative\TokenAuthentication\Security\Repository\HashAndRolesRepository;
 use Neos\ContentRepository\Domain\Model\NodeInterface;
 use Neos\ContentRepository\Domain\Service\ContextFactoryInterface;
 use Neos\Eel\FlowQuery\FlowQuery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Controller\Argument;
+use Neos\Flow\Mvc\Exception\StopActionException;
 use Neos\Flow\Security\Authentication\Controller\AbstractAuthenticationController;
 use Neos\Neos\Domain\Service\ContentContext;
-use Flownative\TokenAuthentication\Security\Repository\HashAndRolesRepository;
 
 /**
  *
@@ -27,19 +30,6 @@ class HashTokenLoginController extends AbstractAuthenticationController
      * @var ContextFactoryInterface
      */
     protected $contextFactory;
-
-    protected function errorAction()
-    {
-        return parent::errorAction();
-    }
-
-    /**
-     * @return string
-     */
-    public function authenticateAction()
-    {
-        return parent::authenticateAction();
-    }
 
     /**
      * @param ActionRequest|null $originalRequest
@@ -66,7 +56,7 @@ class HashTokenLoginController extends AbstractAuthenticationController
      *
      * @return NodeInterface|null
      */
-    protected function getNodeArgumentValue()
+    protected function getNodeArgumentValue(): ?NodeInterface
     {
         if (!$this->request->hasArgument('node')) {
             return null;
@@ -80,9 +70,9 @@ class HashTokenLoginController extends AbstractAuthenticationController
     /**
      * @param string $workspaceName
      * @param NodeInterface|null $nodeToRedirectTo
-     * @throws \Neos\Flow\Mvc\Exception\StopActionException
+     * @throws StopActionException
      */
-    protected function redirectToWorkspace(string $workspaceName, NodeInterface $nodeToRedirectTo = null)
+    protected function redirectToWorkspace(string $workspaceName, NodeInterface $nodeToRedirectTo = null): void
     {
         /** @var ContentContext $context */
         $context = $this->contextFactory->create(['workspaceName' => $workspaceName]);

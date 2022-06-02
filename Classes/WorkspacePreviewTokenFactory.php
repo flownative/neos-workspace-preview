@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
+
 namespace Flownative\WorkspacePreview;
 
-use Neos\Flow\Annotations as Flow;
-use Neos\Flow\Utility\Algorithms;
 use Flownative\TokenAuthentication\Security\Model\HashAndRoles;
 use Flownative\TokenAuthentication\Security\Repository\HashAndRolesRepository;
+use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Utility\Algorithms;
 
 /**
  * Factory to quickly create tokens to preview specific workspaces.
@@ -52,7 +54,7 @@ class WorkspacePreviewTokenFactory
      * @param string $workspaceName
      * @return void
      */
-    protected function removeExistingWorkspacePreviewFor(string $workspaceName)
+    protected function removeExistingWorkspacePreviewFor(string $workspaceName): void
     {
         $allWorkspacePreviewTokens = $this->hashAndRolesRepository->findByRoles(['Flownative.WorkspacePreview:WorkspacePreviewer']);
         /** @var HashAndRoles $workspacePreviewToken */
