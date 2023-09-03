@@ -2242,18 +2242,14 @@ var LinkView = (_dec = (0, _neosUiViews.dataLoader)(), _dec2 = (0, _neosUiDecora
         );
       }
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _reactClipboard2.default,
-          {
-            'data-clipboard-text': linkUrl,
-            component: _reactUiComponents.Button,
-            'button-style': 'lighter'
-          },
-          _react2.default.createElement(_reactUiComponents.Icon, { icon: 'copy', padded: 'right' }),
-          this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:copyPreviewLink', 'Copy Preview Link')
-        )
+        _reactClipboard2.default,
+        {
+          'data-clipboard-text': linkUrl,
+          component: _reactUiComponents.Button,
+          'button-style': 'lighter'
+        },
+        _react2.default.createElement(_reactUiComponents.Icon, { icon: 'copy', padded: 'right' }),
+        this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:copyPreviewLink', 'Copy Preview Link')
       );
     }
   }]);
@@ -2294,10 +2290,6 @@ var _neosUiExtensibility = __webpack_require__(/*! @neos-project/neos-ui-extensi
 
 var _neosUiExtensibility2 = _interopRequireDefault(_neosUiExtensibility);
 
-var _react = __webpack_require__(/*! react */ "./node_modules/@neos-project/neos-ui-extensibility/src/shims/vendor/react/index.js");
-
-var _react2 = _interopRequireDefault(_react);
-
 var _LinkView = __webpack_require__(/*! ./LinkView */ "./src/LinkView.js");
 
 var _LinkView2 = _interopRequireDefault(_LinkView);
@@ -2305,11 +2297,12 @@ var _LinkView2 = _interopRequireDefault(_LinkView);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _neosUiExtensibility2.default)('Flownative.WorkspacePreview:LinkView', {}, function (globalRegistry) {
-	var viewsRegistry = globalRegistry.get('inspector').get('views');
+  var viewsRegistry = globalRegistry.get('inspector').get('views');
 
-	viewsRegistry.set('Flownative.WorkspacePreview/LinkView', {
-		component: _LinkView2.default
-	});
+  viewsRegistry.set('Flownative.WorkspacePreview/LinkView', {
+    component: _LinkView2.default,
+    hasOwnLabel: true
+  });
 });
 
 /***/ })

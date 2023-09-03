@@ -25,16 +25,14 @@ export default class LinkView extends PureComponent {
       )
     }
     return (
-      <div>
-        <Clipboard
-            data-clipboard-text={linkUrl}
-            component={Button}
-            button-style="lighter"
-        >
-          <Icon icon="copy" padded="right" />
-          {this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:copyPreviewLink', 'Copy Preview Link')}
-        </Clipboard>
-      </div>
+      <Clipboard
+          data-clipboard-text={linkUrl}
+          component={Button}
+          button-style="lighter"
+      >
+        <Icon icon="copy" padded="right"/>
+        {this.props.i18nRegistry.translate('Flownative.WorkspacePreview:Main:copyPreviewLink', 'Copy Preview Link')}
+      </Clipboard>
     );
   }
 }
