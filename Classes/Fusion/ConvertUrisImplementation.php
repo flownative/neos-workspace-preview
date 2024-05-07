@@ -26,7 +26,7 @@ class ConvertUrisImplementation extends OriginalImplementation
         $currentRenderingMode = $this->interfaceRenderModeService->findModeByCurrentUser();
         $forceConversionPathPart = 'forceConversion';
 
-        if ($currentRenderingMode->isEdit() === false && $this->fusionValue($forceConversionPathPart) !== false) {
+        if ($currentRenderingMode->isEdit() === false) {
             $fullPath = $this->path . '/' . $forceConversionPathPart;
             $this->fusionValueCache[$fullPath] = true;
         }
