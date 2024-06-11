@@ -28,4 +28,4 @@ you will be able to create a preview link for an existing internal workspace.
 Any editor can then use the second menu option to copy that link and give it to
 people who should preview the workspace.
 
-Previewers need to first visit the link created by this package. Afterwards they can visit any preview link of that workspace. 
+The package also creates separate preview links for every pages in a workspace. These can be found by going to the metadata tab in the inspector and opening additional information, which now contains a button for the preview link.
