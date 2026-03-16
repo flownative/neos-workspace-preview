@@ -29,3 +29,24 @@ Any editor can then use the second menu option to copy that link and give it to
 people who should preview the workspace.
 
 The package also creates separate preview links for every pages in a workspace. These can be found by going to the metadata tab in the inspector and opening additional information, which now contains a button for the preview link.
+
+
+## User-Interface Mode switcher
+Some Neos websites render editor hints or other backend-specific features, depending on the user interface mode.
+Due to Neos' preview logic, these also end up in the preview of this package.
+To prevent this, the `userInterfaceModeSwitcher` can be enabled. This sets the UI mode (selectable in the backend) to the desktop preview in the frontend and thus prevents the display of backend-specific renderings.
+Enabling the feature:
+```yaml
+Flownative:
+  WorkspacePreview:
+    userInterfaceModeSwitcher:
+      enabled: true
+```
+To customize the mode used for preview:
+```yaml
+Flownative:
+  WorkspacePreview:
+    userInterfaceModeSwitcher:
+      enabled: true
+      previewMode: '<mode-name>'
+```

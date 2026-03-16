@@ -42,3 +42,8 @@ Neos:
 Flownative:
   TokenAuthentication:
     authenticationProviderName: 'Flownative.WorkspacePreview:TokenAuthenticator'
+
+  WorkspacePreview:
+    userInterfaceModeSwitcher:
+      enabled: false
+      previewMode: 'desktop'
